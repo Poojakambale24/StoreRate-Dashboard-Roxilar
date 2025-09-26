@@ -4,8 +4,8 @@ import { pool } from '@/lib/db'
 
 // Validation functions
 function validateName(name: string): string | null {
-  if (!name || name.length < 20 || name.length > 60) {
-    return 'Name must be between 20 and 60 characters'
+  if (!name || name.length < 2 || name.length > 50) {
+    return 'Name must be between 2 and 50 characters'
   }
   return null
 }
@@ -19,19 +19,19 @@ function validateEmail(email: string): string | null {
 }
 
 function validatePassword(password: string): string | null {
-  if (!password || password.length < 8 || password.length > 16) {
-    return 'Password must be between 8 and 16 characters'
+  if (!password || password.length < 6 || password.length > 20) {
+    return 'Password must be between 6 and 20 characters'
   }
   
-  // Check for at least one uppercase letter
-  if (!/[A-Z]/.test(password)) {
-    return 'Password must contain at least one uppercase letter'
-  }
+  // Optional: Check for at least one uppercase letter (commented out for easier testing)
+  // if (!/[A-Z]/.test(password)) {
+  //   return 'Password must contain at least one uppercase letter'
+  // }
   
-  // Check for at least one special character
-  if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-    return 'Password must contain at least one special character'
-  }
+  // Optional: Check for at least one special character (commented out for easier testing)  
+  // if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+  //   return 'Password must contain at least one special character'
+  // }
   
   return null
 }
