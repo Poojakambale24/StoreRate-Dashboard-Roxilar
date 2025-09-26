@@ -131,6 +131,13 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Signup error:', error)
     
+    // Log environment status for debugging
+    console.log('Environment check:', {
+      DATABASE_URL: process.env.DATABASE_URL ? 'SET' : 'MISSING',
+      NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET ? 'SET' : 'MISSING',
+      NEXTAUTH_URL: process.env.NEXTAUTH_URL || 'NOT SET'
+    })
+    
     // Handle specific database errors
     if (error instanceof Error) {
       if (error.message.includes('duplicate key')) {
@@ -146,10 +153,26 @@ export async function POST(request: NextRequest) {
           { status: 400 }
         )
       }
+      
+      // Database connection errors
+      if (error.message.includes('connect') || error.message.includes('ENOTFOUND')) {
+        return NextResponse.json(
+          { error: 'Database connection failed. Please try again.' },
+          { status: 503 }
+        )
+      }
+      
+      // SSL/Certificate errors
+      if (error.message.includes('certificate') || error.message.includes('SSL')) {
+        return NextResponse.json(
+          { error: 'Database SSL connection failed. Please try again.' },
+          { status: 503 }
+        )
+      }
     }
     
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Failed to create account. Please check your details and try again.' },
       { status: 500 }
     )
   }
