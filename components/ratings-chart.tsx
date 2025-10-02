@@ -23,12 +23,12 @@ const chartConfig = {
 
 export function RatingsChart() {
   return (
-    <>
+    <Card className="bg-card border-border w-full h-full">
       <CardHeader>
         <CardTitle className="text-card-foreground">Average Ratings Trend</CardTitle>
       </CardHeader>
       <CardContent className="w-full overflow-hidden flex-1">
-        <ChartContainer config={chartConfig} className="h-full w-full max-w-full min-h-[350px]">
+        <ChartContainer config={chartConfig} className="h-[350px] w-full max-w-full">
           <ResponsiveContainer width="100%" height="100%" minWidth={0}>
             <AreaChart data={data}>
               <defs>
@@ -62,6 +62,6 @@ export function RatingsChart() {
           </ResponsiveContainer>
         </ChartContainer>
       </CardContent>
-    </>
+    </Card>
   )
 }

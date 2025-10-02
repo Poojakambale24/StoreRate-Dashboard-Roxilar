@@ -51,7 +51,7 @@ export function RecentActivity() {
   ]
 
   return (
-    <>
+    <Card className="bg-card border-border w-full h-full">
       <CardHeader>
         <CardTitle className="text-card-foreground">Recent Activity</CardTitle>
       </CardHeader>
@@ -86,6 +86,6 @@ export function RecentActivity() {
           ))}
         </div>
       </CardContent>
-    </>
+    </Card>
   )
 }

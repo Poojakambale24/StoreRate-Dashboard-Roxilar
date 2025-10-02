@@ -103,16 +103,12 @@ export function AdminDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 min-h-[600px]">
         {/* Left Section - Ratings Chart */}
         <div className="lg:col-span-8">
-          <Card className="h-full">
-            <RatingsChart />
-          </Card>
+          <RatingsChart />
         </div>
 
         {/* Right Section - Recent Activity */}
         <div className="lg:col-span-4">
-          <Card className="h-full">
-            <RecentActivity />
-          </Card>
+          <RecentActivity />
         </div>
       </div>
 

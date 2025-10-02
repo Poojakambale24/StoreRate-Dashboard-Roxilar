@@ -59,7 +59,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           {/* Logo */}
           <div className="flex h-16 items-center justify-between px-6 border-b border-sidebar-border">
             <Link href="/" className="flex items-center space-x-2">
-              <Star className="h-8 w-8 text-sidebar-primary" />
+              <Star className="h-8 w-8 text-blue-600" />
               <span className="text-xl font-bold text-sidebar-foreground">StoreRate</span>
             </Link>
             <Button
@@ -133,15 +133,18 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             <Button variant="ghost" size="sm" className="lg:hidden text-foreground p-1 sm:p-2" onClick={() => setSidebarOpen(true)}>
               <Menu className="h-5 w-5" />
             </Button>
-            {/* Mobile page title */}
-            <h1 className="lg:hidden text-lg sm:text-xl font-semibold text-foreground">
-              {pathname === '/dashboard' ? 'Dashboard' : 
-               pathname === '/stores' ? 'Stores' : 
-               pathname === '/reviews' ? 'Reviews' : 
-               pathname === '/users' ? 'Users' : 
-               pathname === '/analytics' ? 'Analytics' : 
-               pathname === '/admin' ? 'Admin Panel' : 'StoreRate'}
-            </h1>
+            {/* Mobile page title with star icon */}
+            <div className="lg:hidden flex items-center space-x-2">
+              <Star className="h-5 w-5 text-blue-600" />
+              <h1 className="text-lg sm:text-xl font-semibold text-foreground">
+                {pathname === '/dashboard' ? 'Dashboard' : 
+                 pathname === '/stores' ? 'Stores' : 
+                 pathname === '/reviews' ? 'Reviews' : 
+                 pathname === '/users' ? 'Users' : 
+                 pathname === '/analytics' ? 'Analytics' : 
+                 pathname === '/admin' ? 'Admin Panel' : 'StoreRate'}
+              </h1>
+            </div>
           </div>
 
           <div className="flex items-center space-x-2 sm:space-x-4">

@@ -115,29 +115,115 @@ export function AnalyticsDashboard() {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <RatingsChart />
+      {/* Main Analytics Grid - Equal Heights */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 min-h-[600px]">
+        {/* Left Section - Ratings Chart */}
+        <div className="lg:col-span-8">
+          <RatingsChart />
+        </div>
 
-        {/* Category Distribution */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Store Categories</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {Object.entries(categoryStats)
-                .sort(([, a], [, b]) => b - a)
-                .map(([category, count]) => (
-                  <div key={category} className="flex items-center justify-between">
-                    <span className="font-medium">{category}</span>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-24 bg-muted rounded-full h-2">
-                        <div
-                          className="bg-primary h-2 rounded-full"
-                          style={{ width: `${(count / totalStores) * 100}%` }}
-                        />
+        {/* Right Section - Category Distribution */}
+        <div className="lg:col-span-4">
+          <Card className="h-full">
+            <CardHeader>
+              <CardTitle>Store Categories</CardTitle>
+            </CardHeader>
+            <CardContent className="h-full flex flex-col">
+              <div className="space-y-4 flex-1">
+                {Object.entries(categoryStats)
+                  .sort(([, a], [, b]) => b - a)
+                  .map(([category, count]) => (
+                    <div key={category} className="flex items-center justify-between">
+                      <span className="font-medium">{category}</span>
+                      <div className="flex items-center space-x-2">
+                        <div className="w-24 bg-muted rounded-full h-2">
+                          <div
+                            className="bg-blue-600 h-2 rounded-full"
+                            style={{ width: `${(count / totalStores) * 100}%` }}
+                          />
+                        </div>
+                        <span className="text-sm text-muted-foreground w-8">{count}</span>
                       </div>
-                      <span className="text-sm text-muted-foreground w-8">{count}</span>
+                    </div>
+                  ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+
+      {/* Additional Analytics Sections */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[400px]">
+        {/* Performance Metrics */}
+        <Card className="h-full">
+          <CardHeader>
+            <CardTitle>Performance Trends</CardTitle>
+          </CardHeader>
+          <CardContent className="h-full flex flex-col">
+            <div className="space-y-6 flex-1">
+              <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
+                <div>
+                  <p className="font-medium">Monthly Growth</p>
+                  <p className="text-sm text-muted-foreground">Store registrations</p>
+                </div>
+                <div className="flex items-center text-green-600">
+                  <TrendingUp className="h-5 w-5 mr-2" />
+                  <span className="text-lg font-bold">+12%</span>
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
+                <div>
+                  <p className="font-medium">Review Volume</p>
+                  <p className="text-sm text-muted-foreground">This week vs last week</p>
+                </div>
+                <div className="flex items-center text-green-600">
+                  <TrendingUp className="h-5 w-5 mr-2" />
+                  <span className="text-lg font-bold">+8%</span>
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
+                <div>
+                  <p className="font-medium">Engagement Rate</p>
+                  <p className="text-sm text-muted-foreground">User activity decline</p>
+                </div>
+                <div className="flex items-center text-red-600">
+                  <TrendingDown className="h-5 w-5 mr-2" />
+                  <span className="text-lg font-bold">-2%</span>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Top Performing Stores */}
+        <Card className="h-full">
+          <CardHeader>
+            <CardTitle>Top Performing Stores</CardTitle>
+          </CardHeader>
+          <CardContent className="h-full flex flex-col">
+            <div className="space-y-4 flex-1">
+              {stores
+                .map((store) => {
+                  const storeRatings = ratings.filter((r) => r.storeId === store.id)
+                  const avgRating = storeRatings.length > 0 ? 
+                    storeRatings.reduce((sum, r) => sum + r.rating, 0) / storeRatings.length : 0
+                  return { ...store, avgRating, reviewCount: storeRatings.length }
+                })
+                .sort((a, b) => b.avgRating - a.avgRating)
+                .slice(0, 5)
+                .map((store) => (
+                  <div key={store.id} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+                    <div>
+                      <p className="font-medium">{store.name}</p>
+                      <p className="text-sm text-muted-foreground">{store.reviewCount} reviews</p>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <div className="flex items-center text-yellow-600">
+                        <span className="text-lg font-bold">{store.avgRating.toFixed(1)}</span>
+                        <span className="ml-1">⭐</span>
+                      </div>
                     </div>
                   </div>
                 ))}
